@@ -7,31 +7,30 @@ import javax.servlet.ServletRequest;
 
 import www.web1.javaBean.User;  
   
-/** 
- * 生成帐户激活、重新设置密码的链接 
+/** 生成帐户激活、重新设置密码的链接 
+ * 
  */  
 public class GenerateLinkUtils {  
       
     private static final String CHECK_CODE = "checkCode";  
       
-    /** 
-     * 生成帐户激活链接 
+    /** 生成帐户激活链接 
+     * 
      */  
     public static String generateActivateLink(User user) {  
         return "http://localhost:8080/MyWeb/activateAccount?id="   
                 + user.getID() + "&" + CHECK_CODE + "=" + generateCheckcode(user);  
     }  
       
-    /** 
-     * 生成重设密码的链接 
+    /** 生成重设密码的链接 
+     * 
      */  
     public static String generateResetPwdLink(User user) {  
         return "http://localhost:8080/MyWeb/updatePswd.jsp?id="   
                 + user.getID() + "&" + CHECK_CODE + "=" + generateCheckcode(user);  
     }  
       
-    /** 
-     * 生成验证帐户的MD5校验码 
+    /** 生成验证帐户的MD5校验码 
      * @param user  要激活的帐户 
      * @return 将用户名和密码组合后，通过md5加密后的16进制格式的字符串 
      */  

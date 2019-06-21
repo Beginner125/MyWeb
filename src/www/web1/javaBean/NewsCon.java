@@ -2,7 +2,9 @@ package www.web1.javaBean;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-
+/**封装的表示消息的类
+ * 
+ */
 public class NewsCon {
 	int id;
 	String content;

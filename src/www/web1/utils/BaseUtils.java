@@ -2,7 +2,9 @@ package www.web1.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
-
+/**{@link com.sun.org.apache.xerces.internal.impl.dv.util.Base64}封装类，处理中文字符（中文不能在url地址上传输）
+ * 
+ */
 public class BaseUtils {
 	static public String Encoder(String text){
 		byte[] byteOfText = null;

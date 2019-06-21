@@ -44,6 +44,10 @@ public class EDController {
 	@Autowired
 	OtherMapper om;
 	
+	/**处理ed-content,显示文章的页面
+	 * @param pid 显示的文章的pid，显示方法
+	 * @return 如果文章非空，显示：ed-content.jsp,否则，显示：login.jsp
+	 */
 	@RequestMapping("ed-content")
 	public ModelAndView displayContent(@RequestParam("pid") int pid){
 		ModelAndView mav = new ModelAndView();
@@ -59,6 +63,12 @@ public class EDController {
 		return mav;
 	}
 	
+	/**提交评论，重定位方法
+	 * @param content 评论的内容
+	 * @param ID 评论人ID
+	 * @param essayPid 评论的文章pid
+	 * @return 重定位：{@link #displayContent(int)}
+	 */
 	@PostMapping("subComment")
 	public ModelAndView subComment(@RequestParam("content") String content,
 			@RequestParam("ID") String ID,
@@ -70,6 +80,11 @@ public class EDController {
 		return mav;
 	}
 	
+	/**显示主界面,显示方法
+	 * @param user 用户的Session
+	 * @param page 用于分页的page对象
+	 * @return 显示：ed-index.jsp
+	 */
 	@RequestMapping("ed-index") 
 	public ModelAndView getQuestions(@SessionAttribute("user") User user,
 			Page page){
@@ -102,6 +117,11 @@ public class EDController {
 		return mav;
 	}
 	
+	/**显示个人用户的界面,显示方法
+	 * @param user 用户的Session
+	 * @param page 用于分页的page对象
+	 * @return 显示：ed-person.jsp
+	 */
 	@RequestMapping("ed-person")
 	public ModelAndView displayPerson(@SessionAttribute(value="user") User user,
 			Page page){
@@ -116,7 +136,10 @@ public class EDController {
 		mav.setViewName("ed-person");
 		return mav;
 	}
-	
+	/**显示另一个用户的界面,显示方法
+	 * @param user 用户的Session，以及另一个用户的id
+	 * @return 显示：ed-userUI.jsp
+	 */
 	@RequestMapping("ed-userUI")
 	public ModelAndView displayUserUI(@SessionAttribute("user") User user,
 			@RequestParam("ID") int ID){
@@ -138,6 +161,10 @@ public class EDController {
 		return mav;
 	}	
 	
+	/**关注一名用户,重定位方法
+	 * @param user 用户的Session，以及另一个用户的id
+	 * @return 重定位： {@link #displayUserUI(User, int)} 
+	 */
 	@RequestMapping("concern")
 	public ModelAndView concern(@SessionAttribute("user") User user,
 			@RequestParam("ID") int ID){
@@ -147,7 +174,10 @@ public class EDController {
 		mav.setViewName("redirect:/ed-userUI?ID="+String.valueOf(ID));
 		return mav;
 	}
-	
+	/**取消关注一名用户,重定位方法
+	 * @param user 用户的Session，以及另一个用户的id
+	 * @return 重定位： {@link #displayUserUI(User, int)}
+	 */
 	@RequestMapping("unconcern")
 	public ModelAndView unconcern(@SessionAttribute("user") User user,
 			@RequestParam("ID") int ID){
@@ -157,7 +187,11 @@ public class EDController {
 		mav.setViewName("redirect:/ed-userUI?ID="+String.valueOf(ID));
 		return mav;
 	}
-	
+	/** 显示草稿界面,重定位方法
+	 * @param user 用户的Session，以及另一个用户的id
+	 * @param pid 草稿的pid
+	 * @return 重定位：{@link #displayUserUI(User, int)} 
+	 */
 	@RequestMapping("ed-upload")
 	public ModelAndView displayUpload(@SessionAttribute(value="user") User user,@RequestParam(value="pid",defaultValue="0") int pid){
 		ModelAndView mav = new ModelAndView();
@@ -174,7 +208,10 @@ public class EDController {
 		mav.setViewName("ed-upload");
 		return mav;
 	}
-	
+	/** 显示消息列表界面,显示方法
+	 * @param user 用户的Session
+	 * @return 显示：ed-news.jsp
+	 */
 	@RequestMapping("ed-news")
 	public ModelAndView displayNews(@SessionAttribute(value="user") User user){
 		ModelAndView mav = new ModelAndView();
@@ -183,7 +220,11 @@ public class EDController {
 		mav.setViewName("ed-news");
 		return mav;
 	}
-	
+	/** 显示消息对话框界面,显示方法
+	 * @param user 用户的Session
+	 * @param id 另一个用户的id
+	 * @return 显示：ed-Frame.jsp
+	 */
 	@RequestMapping("ed-newsFrame")
 	public ModelAndView displayNewsFrame(@SessionAttribute(value="user") User user,@RequestParam(value="id") int id){
 		ModelAndView mav = new ModelAndView();
@@ -204,17 +245,29 @@ public class EDController {
 		mav.setViewName("ed-newsFrame");
 		return mav;
 	}
-	
+	/** 给另一个用户发送消息,重定位方法
+	 * @param user 用户的Session
+	 * @param userb 另一个用户的id
+	 * @param text 发送的文本
+	 * @return 重定位：{@link #displayNewsFrame(User, int)}
+	 */
 	@PostMapping("subNews")
-	public ModelAndView subNews(@RequestParam("usera") int usera,
+	public ModelAndView subNews(@SessionAttribute(value="user") User user,
 			@RequestParam("userb") int userb, 
 			@RequestParam("text") String text){
 		ModelAndView mav = new ModelAndView();
-		om.addNews(usera, userb, text);
+		om.addNews(user.getID(), userb, text);
 		mav.setViewName("redirect:/ed-newsFrame?id="+String.valueOf(userb));
 		return mav;
 	}
 	
+	/** 提交用户头像图片,重定位方法
+	 * @param user 用户的Session
+	 * @param request 请求对象
+	 * @param file 上传的文件
+	 * @param model 模型
+	 * @return 重定位：{@link #displayNewsFrame(User, int)}
+	 */
 	@PostMapping("/subHeadPic")
 	public String subHeadPic(@SessionAttribute(value="user") User user,
 			HttpServletRequest request,
@@ -234,7 +287,13 @@ public class EDController {
 		}
 		return "ed-index";
 	}
-	
+	/** 提交用户背景图片,重定位方法
+	 * @param user 用户的Session
+	 * @param request 请求对象
+	 * @param file 上传的文件
+	 * @param model 模型
+	 * @return 重定位：{@link #displayNewsFrame(User, int)}
+	 */
 	@PostMapping("/subBgPic")
 	public String subBgPic(@SessionAttribute(value="user") User user,
 			HttpServletRequest request,
@@ -254,7 +313,14 @@ public class EDController {
 		}
 		return "ed-index";
 	}
-	
+	/** 用户将草稿提交为文章,重定位方法
+	 * @param pid 提交草稿的pid
+	 * @param user 用户Session
+	 * @param theme 用户上传的草稿题目
+	 * @param comCon 用户上传的草稿内容
+	 * @param type 用户上传的草稿类型
+	 * @return 重定位：{@link #displayContent(int)}
+	 */
 	@PostMapping("submitDraft")
 	public String submitDraft(@RequestParam("pid") int pid,
 			@SessionAttribute(value="user") User user,
@@ -267,7 +333,13 @@ public class EDController {
 		edm.deleteDraft(pid);
 		return "redirect:/ed-index";
 	}
-	
+	/** 增添或修改用户草稿,重定位方法
+	 * @param pid 草稿的pid
+	 * @param user 用户Session
+	 * @param theme 草稿题目
+	 * @param comCon 草稿内容
+	 * @return 重定位：{@link #displayUpload(User, int)}
+	 */
 	@PostMapping("saveDraft")
 	public String saveDraft(@RequestParam("pid") int pid,
 			@SessionAttribute(value="user") User user,
@@ -282,7 +354,13 @@ public class EDController {
 		}
 		return "redirect:/ed-upload";
 	}
-	
+	/** 用户删除草稿,重定位方法
+	 * @param pid 草稿的pid
+	 * @param user 用户Session
+	 * @param theme 草稿题目
+	 * @param comCon 草稿内容
+	 * @return 重定位：{@link #displayUpload(User, int)}
+	 */
 	@PostMapping("deleteDraft")
 	public String deleteDraft(@RequestParam("pid") int pid,
 			@SessionAttribute(value="user") User user,
@@ -293,7 +371,13 @@ public class EDController {
 		edm.deleteDraft(pid);
 		return "redirect:/ed-upload";
 	}
-	
+	/** 管理员删除文章,重定位方法
+	 * @param pid 文章的pid
+	 * @param user 用户Session
+	 * @param id 删除文章所属用户id
+	 * @param comCon 草稿内容
+	 * @return 重定位：{@link #displayContent(int)}
+	 */
 	@RequestMapping("vipDelete")
 	public String vipDelete(@RequestParam("pid") int pid,
 			@RequestParam("id") int id,
@@ -303,7 +387,10 @@ public class EDController {
 		}
 		return "redirect:/ed-index";
 	}
-	
+	/** 注销登录,重定位方法
+	 * @param session 会话
+	 * @return 重定位：login.jsp
+	 */
 	@RequestMapping("loginout")
 	public String loginout(HttpSession session){
 		session.invalidate();

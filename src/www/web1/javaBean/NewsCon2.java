@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Stack;
 
 import org.springframework.beans.NullValueInNestedPathException;
-
+/**在{@link NewsCon}的基础上的消息处理，将两个用户的消息分出来并按时间排序。
+ * 
+ */
 public class NewsCon2 {
 	//此类用于给NewsCon2增加判别发送对象的属性
 	Stack<NewsCon> a;

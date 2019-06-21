@@ -24,6 +24,13 @@ public class UNController {
 	@Autowired
 	UserServiceImpl us;
 	
+	/**用户登录
+	 * @param email 用户的邮箱
+	 * @param password 用户密码
+	 * @param model 获取的模型参数
+	 * @return 如果登录成功，重定位：{@link www.web1.controller.EDController#displayContent(int)}
+	 * 否则重定位：login.jsp
+	 */
 	@PostMapping("loginServlet")
 	public ModelAndView LoginServlet(@RequestParam("email")String email,
 			@RequestParam("password")String password,
@@ -38,7 +45,11 @@ public class UNController {
 		}
 		return mav;
 	}
-	
+	/**激活账户
+	 * @param id 待激活账户
+	 * @param checkCode 校验码，用于判断是否是正确激活链接
+	 * @return 显示：info.jsp
+	 */
 	@RequestMapping("activateAccount")
 	public ModelAndView activateAccount(@RequestParam("id") int id, 
 			@RequestParam("checkCode") String checkCode){
@@ -61,26 +72,36 @@ public class UNController {
 		mav.setViewName("Info");
 		return mav;
 	}
-	
+	/**添加用户，用于注册
+	 * @param user 待注册用户信息
+	 * @return 如果登录成功，显示：rigister.jsp，否则显示：login.jsp
+	 */
 	@PostMapping("addUser")
 	public String addUser(User user){
 		int i = us.register(user);
 		if(i == 0 || i == 1){
-			return "redirect:/rigister.jsp";
+			return "rigister";
 		}else{
-			return "redirect:/login.jsp";
+			return "login";
 		}
 	}
-	
+	/**找回密码
+	 * @param email 待找回的邮箱账号
+	 * @return 显示：login.jsp
+	 */
 	@PostMapping("findPswdServlet")
 	public String findPswdServlet(@RequestParam("email") String email){
 		User user = um.getByEmail(email);
 		user.randomUUID();
 		um.updateUser(user);
 		EmailUtils.sendResetPasswordEmail(user);
-		return "redirect:/login.jsp";
+		return "login";
 	}
-	
+	/**显示修改密码界面
+	 * @param id 待修改密码用户id
+	 * @param checkCode 校验码，用于判断是否是正确修改密码链接
+	 * @return 显示：updatePswd.jsp
+	 */
 	@RequestMapping("updatePswdServlet")
 	public ModelAndView updatePswdServlet(@RequestParam("id") int id, 
 			@RequestParam("checkCode") String checkCode){
@@ -90,7 +111,12 @@ public class UNController {
 		mav.setViewName("updatePswd");
 		return mav;
 	}
-	
+	/**修改密码
+	 * @param id 待修改密码用户id
+	 * @param checkCode 校验码，用于判断是否是正确修改密码链接
+	 * @param password 修改的新密码
+	 * @return 显示：info.jsp
+	 */
 	@RequestMapping("upPswdServlet")
 	public ModelAndView upPswdServlet(@RequestParam("id") int id, 
 			@RequestParam("checkCode") String checkCode,

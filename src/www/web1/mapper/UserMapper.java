@@ -4,7 +4,9 @@ import java.util.List;
 
 import www.web1.javaBean.User;
 import www.web1.javaBean.UserRel;
-
+/**有关用户的数据库操作
+ * 
+ */
 public interface UserMapper {
 	public User getByID(int ID);//通过ID获得user
 	public User getByEmail(String email);//通过email获得user

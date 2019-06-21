@@ -1,5 +1,7 @@
 package www.web1.utils;
-
+/**用于分页的类
+ * 
+ */
 public class Page {
 
 	int start=0;
@@ -35,6 +37,9 @@ public class Page {
 	public void setType(int type) {
 		this.type = type;
 	}
+	/**计算最后一页的起始位置
+	 * @param 待分页内容的size
+	 */
 	public void caculateLast(int total) {
 	    // 假设总数是50，是能够被5整除的，那么最后一页的开始就是45
 	    if (0 == total % count)

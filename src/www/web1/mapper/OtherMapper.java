@@ -7,7 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import www.web1.javaBean.Comment;
 import www.web1.javaBean.NewsCon;
 import www.web1.javaBean.User;
-
+/**其余的数据库操作
+ * 
+ */
 public interface OtherMapper {
 	public List<Comment> getByEssayPid(int essayPid);
 	public void insertComment(Comment comment);

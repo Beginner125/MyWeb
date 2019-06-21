@@ -15,7 +15,9 @@ import javax.mail.internet.MimeMessage;
 
 import www.web1.javaBean.User;  
   
-  
+/**email工具，有关想用户发送邮件操作
+ * 
+ */
 public class EmailUtils {  
       
     private static final String FROM = "liuliming155@163.com";  

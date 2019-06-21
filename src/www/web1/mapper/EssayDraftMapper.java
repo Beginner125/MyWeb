@@ -4,7 +4,9 @@ import java.util.List;
 
 import www.web1.javaBean.Draft;
 import www.web1.javaBean.Essay;
-
+/**有关草稿和文章的数据库操作
+ * 
+ */
 public interface EssayDraftMapper {
 	public Essay eGetByPid(int pid);//获得文章通过pid
 	public List<Essay> getEssays();//获得所有文章

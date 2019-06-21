@@ -33,7 +33,6 @@
 			<input class="btn" type="submit" value="登录" name="login" style="font-size:120%;width:120px;height:50px;float:left; margin-left: 80px;margin-top: 50px;"/>
 			<a href="rigister.jsp" class="btn" style="text-align:center;text-decoration:none;font-size:120%;width:120px;height:39px;float:right; margin-right: 80px;margin-top: 50px;padding-top: 11px;">注册</a>
 		</form>
-		
 	
 		<div style="margin-top: 20px;float:right;margin-right: 50px;">
 			<a href="un-findPswd.jsp">找回密码</a>

@@ -1,5 +1,8 @@
 package www.web1.javaBean;
 
+/**评论
+ * 
+ */
 public class Comment {
 	private int pid;//评论pid
 	private int essayPid;//被评论文章ID
